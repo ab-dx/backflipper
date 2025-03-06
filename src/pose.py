@@ -13,9 +13,12 @@ vid1 = cv2.VideoCapture(config['video']['src'])
 SCALE=config['window']['scale']
 WIDTH = config['window']['width']
 HEIGHT = config['window']['height']
+camera_start = Vector3(*config['camera']['start'])
+camera_end = Vector3(*config['camera']['end'])
+camera_perpendicular = Vector3(*config['camera']['perpendicular'])
 init_window(WIDTH, HEIGHT, "Sticc boii")
 set_target_fps(config['window']['fps'])
-camera = Camera3D(config['camera']['start'],config['camera']['end'], config['camera']['perpendicular'], config['camera']['fov'], CAMERA_PERSPECTIVE)
+camera = Camera3D(camera_start,camera_end, camera_perpendicular, config['camera']['fov'], CAMERA_PERSPECTIVE)
 
 BaseOptions = mp.tasks.BaseOptions
 PoseLandmarker = mp.tasks.vision.PoseLandmarker
@@ -44,15 +47,11 @@ def main():
                     p.y *= SCALE
                     p.z *= SCALE
                     point_map[i] = Vector3(p.x,p.y,p.z)
-                    if(i==11):
-                        print("11:", p.x,p.y,p.z)
-                    if(i==23):
-                        print("23:", p.x,p.y,p.z)
                 draw_line_3d(Vector3(-100,0,0), Vector3(100,0,0), config['window']['x-color'])
                 draw_line_3d(Vector3(0,-100,0), Vector3(0,100,0), config['window']['y-color'])
                 draw_line_3d(Vector3(0,0,-100), Vector3(0,0,100), config['window']['z-color'])
                 for k in config['ragdoll']['connections']:
-                    draw_line_3d(point_map[k[0]],point_map[k[1]],WHITE)
+                    draw_line_3d(point_map[k[0]],point_map[k[1]],config['ragdoll']['primary-color'])
             end_mode_3d()
             end_drawing()
             if cv2.waitKey(1) == ord('q'):
