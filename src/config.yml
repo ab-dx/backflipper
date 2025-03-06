@@ -20,7 +20,7 @@ camera:
   step_size: 10
   
 model:
-  path: './models/pose_landmarker_full.task'
+  path: './models/pose_landmarker_heavy.task'
 
 ragdoll:
   primary-color: [255,255,255,255]
