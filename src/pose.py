@@ -33,7 +33,8 @@ def main():
             _, frame1 = vid1.read()
             frame1 = imutils.resize(frame1, width=WIDTH, height=HEIGHT)
             begin_mode_3d(camera)
-            cv2.imshow("Frame", frame1)
+            if(config['video']['show_src']):
+                cv2.imshow("Frame", frame1)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame1)
             result = landmarker.detect_for_video(mp_image, int(vid1.get(cv2.CAP_PROP_POS_MSEC)))
             #result = vid1.get(cv2.CAP_PROP_POS_MSEC)

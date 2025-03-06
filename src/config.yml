@@ -1,5 +1,6 @@
 video:
   src: 0
+  show_src: False
 
 window:
   width: 1000
