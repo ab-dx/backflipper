@@ -5,11 +5,11 @@ window:
   width: 1000
   height: 800
   fps: 60
-  background: [0,0,0]
+  background: [0,0,0, 255]
   scale: 30
-  x-color: [255,0,0]
-  y-color: [0, 255, 255]
-  z-color: [0, 255, 0]
+  x-color: [255,0,0, 255]
+  y-color: [0, 255, 255, 255]
+  z-color: [0, 255, 0, 255]
 
 camera:
   start: [0,0,-50]
