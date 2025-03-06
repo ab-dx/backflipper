@@ -1,6 +1,6 @@
 video:
-  src: 0
-  show_src: False
+  src: '../backflip.mp4'
+  show_src: True
 
 window:
   width: 1000

@@ -9,7 +9,7 @@ with open('config.yml', 'r') as file:
     config = yaml.safe_load(file)
 
 
-vid1 = cv2.VideoCapture(0)
+vid1 = cv2.VideoCapture(config['video']['src'])
 SCALE=config['window']['scale']
 WIDTH = config['window']['width']
 HEIGHT = config['window']['height']
@@ -37,25 +37,22 @@ def main():
                 cv2.imshow("Frame", frame1)
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame1)
             result = landmarker.detect_for_video(mp_image, int(vid1.get(cv2.CAP_PROP_POS_MSEC)))
-            #result = vid1.get(cv2.CAP_PROP_POS_MSEC)
-            #pprint.pp(result.pose_landmarks[0])
             point_map = {}
-            #connections = [(11,13),(13,15),(12,14),(14,16),(11,12),(24,23),(12,24),(11,23),(24,26),(23,25)]
-            for i,p in enumerate(result.pose_landmarks[0]):
-                p.x *= SCALE
-                p.y *= SCALE
-                p.z *= SCALE
-                point_map[i] = Vector3(p.x,p.y,p.z)
-                if(i==11):
-                    print("11:", p.x,p.y,p.z)
-                if(i==23):
-                    print("23:", p.x,p.y,p.z)
-            draw_line_3d(Vector3(-100,0,0), Vector3(100,0,0), config['window']['x-color'])
-            draw_line_3d(Vector3(0,-100,0), Vector3(0,100,0), config['window']['y-color'])
-            draw_line_3d(Vector3(0,0,-100), Vector3(0,0,100), config['window']['z-color'])
-            for k in config['ragdoll']['connections']:
-                draw_line_3d(point_map[k[0]],point_map[k[1]],WHITE)
-            #            draw_sphere(Vector3(0,0,0), 2, BLUE)
+            if(result.pose_landmarks):
+                for i,p in enumerate(result.pose_landmarks[0]):
+                    p.x *= SCALE
+                    p.y *= SCALE
+                    p.z *= SCALE
+                    point_map[i] = Vector3(p.x,p.y,p.z)
+                    if(i==11):
+                        print("11:", p.x,p.y,p.z)
+                    if(i==23):
+                        print("23:", p.x,p.y,p.z)
+                draw_line_3d(Vector3(-100,0,0), Vector3(100,0,0), config['window']['x-color'])
+                draw_line_3d(Vector3(0,-100,0), Vector3(0,100,0), config['window']['y-color'])
+                draw_line_3d(Vector3(0,0,-100), Vector3(0,0,100), config['window']['z-color'])
+                for k in config['ragdoll']['connections']:
+                    draw_line_3d(point_map[k[0]],point_map[k[1]],WHITE)
             end_mode_3d()
             end_drawing()
             if cv2.waitKey(1) == ord('q'):
