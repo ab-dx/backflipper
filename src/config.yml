@@ -16,7 +16,8 @@ camera:
   start: [0,0,-50]
   end: [0,0,0]
   perpendicular: [0,-1,0]
-  fov: 90
+  fov: 60
+  step_size: 10
   
 model:
   path: './models/pose_landmarker_full.task'
